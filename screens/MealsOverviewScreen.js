@@ -1,12 +1,12 @@
-import React from 'react'
+import {useEffect, useLayoutEffect} from 'react'
 import { FlatList, View, Text, StyleSheet } from 'react-native'
 import MealItem from '../components/MealItem'
-import { MEALS } from '../data/dummy-data'
+import { CATEGORIES, MEALS } from '../data/dummy-data'
 
 // import { useNavigation } from '@react-navigation/native'
 // import { useRoute } from '@react-navigation/native'; - can use useRoute hook instead of prop destructuring to use route anywhere. same with useNavigation
 
-function MealsOverviewScreen({route}) {
+function MealsOverviewScreen({route, navigation}) {
     const catId = route.params.categoryId
     // const route = useRoute();
     // const catID = route.params.categoryId
@@ -16,8 +16,36 @@ function MealsOverviewScreen({route}) {
         }
     )
 
+    // useEffect(()=>{
+    //     const categoryTitle = CATEGORIES.find((category) => category.id === catId).title;
+
+    //     navigation.setOptions({
+    //         title: categoryTitle
+    //     })
+
+    // }, [catId, navigation])
+
+    //useLayoutEffect is used when you want to update a component concurrently when it's being created
+    useLayoutEffect(()=>{
+        const categoryTitle = CATEGORIES.find((category) => category.id === catId).title;
+
+        navigation.setOptions({
+            title: categoryTitle
+        })
+
+    }, [catId, navigation])
+
+    
     function renderMealItem(itemData) {
-        return <MealItem title={itemData.item.title}/>
+        const item = itemData.item;
+        const mealItemProps = {
+            title: item.title,
+            imageUrl: item.imageUrl,
+            duration: item.duration,
+            complexity: item.complexity,
+            affordability: item.affordability,
+        }
+        return <MealItem {...mealItemProps}/>
     }
 
     return (
