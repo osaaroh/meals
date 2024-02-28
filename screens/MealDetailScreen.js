@@ -15,7 +15,7 @@ function MealDetailScreen({route, navigation}) {
     const mealIsFavourite = favouriteMealCtx.ids.includes(mealId);
 
     function changeFavouritesStatusHandler() {
-        console.log('Pressed!');
+        console.log(mealIsFavourite);
         if(mealIsFavourite){
             favouriteMealCtx.removeFavourite(mealId);
         } else {
@@ -31,7 +31,7 @@ function MealDetailScreen({route, navigation}) {
                 }
             }
         )
-    }, [navigation]);
+    }, [navigation, changeFavouritesStatusHandler]);
   return (
     <ScrollView style={styles.rootContainer}>
         <Image style={styles.image} source={{uri: selectedMeal.imageUrl}}/>
