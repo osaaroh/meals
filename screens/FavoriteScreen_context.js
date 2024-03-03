@@ -4,19 +4,18 @@ import { useContext } from 'react'
 import { FavoritesContext } from '../store/context/favourites-context'
 import MealsList from '../components/MealsList/MealsList';
 import { MEALS } from '../data/dummy-data';
-import { useSelector } from 'react-redux';
 
 function FavouriteScreens() {
-  const favoriteMealIds = useSelector(state => state.favoriteMeals.ids);
+  const favouriteMealCtx = useContext(FavoritesContext);
 
-  const favoriteMeals = MEALS.filter(meal => favoriteMealIds.includes(meal.id))
+  const favouriteMeals = MEALS.filter(meal => favouriteMealCtx.ids.includes(meal.id))
 
-  if (favoriteMeals.length === 0) {
+  if (favouriteMeals.length === 0) {
     return <View style={styles.rootContainer}>
       <Text style={styles.text}>You have no favorite meals yet</Text>
     </View>
   }
-  return <MealsList items={favoriteMeals}/>
+  return <MealsList items={favouriteMeals}/>
 }
 
 export default FavouriteScreens
